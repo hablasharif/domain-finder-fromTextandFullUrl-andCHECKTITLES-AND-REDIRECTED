@@ -5,7 +5,7 @@ import requests
 import random
 from bs4 import BeautifulSoup
 
-# Define a list of User-Agent strings, including some additional ones
+# Define a list of User-Agent strings
 user_agents = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
@@ -62,17 +62,23 @@ if input_text:
     # Extract and sort domains and main domains from the input text
     sorted_domains, main_domains = extract_and_sort_domains(input_text)
     
-    # Display the sorted domains and main domains
-    if sorted_domains:
-        st.write("Sorted and Extracted Domains:")
-        for domain in sorted_domains:
-            # Use alt.text to create clickable links
-            st.markdown(f"[{domain}]({domain})", unsafe_allow_html=True)
-            
-            # Fetch and display the title of the web page and check for redirects
-            title, redirect_url = get_page_title(domain)
-            st.write(f"Title: {title}")
-            if domain != redirect_url:
-                st.write(f"Redirected to: {redirect_url}")
-    else:
-        st.write("No domains found in the input text.")
+    # Display the total number of domains
+    st.write(f"Total Domains Found: {len(sorted_domains)}")
+    
+    # Display domain titles
+    st.header("Domain Titles:")
+    for domain in sorted_domains:
+        # Use alt.text to create clickable links
+        st.markdown(f"[{domain}]({domain})", unsafe_allow_html=True)
+        
+        # Fetch and display the title of the web page
+        title, redirect_url = get_page_title(domain)
+        st.write(f"Title: {title}")
+    
+    # Display redirected domains
+    st.header("Redirected Domains:")
+    for domain in sorted_domains:
+        # Check if the URL had any redirects
+        title, redirect_url = get_page_title(domain)
+        if domain != redirect_url:
+            st.markdown(f"[{redirect_url}]({redirect_url})", unsafe_allow_html=True)
