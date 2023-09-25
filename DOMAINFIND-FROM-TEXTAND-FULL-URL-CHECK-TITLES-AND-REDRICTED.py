@@ -82,3 +82,12 @@ if input_text:
         title, redirect_url = get_page_title(domain)
         if domain != redirect_url:
             st.markdown(f"[{redirect_url}]({redirect_url})", unsafe_allow_html=True)
+            import streamlit as st
+
+# Create a link to the external URL
+url = "https://danga-sitemap-finderpy.streamlit.app/"
+link_text = "visit this if you want to find multiple website sitemap"
+
+# Display the link
+st.markdown(f"[{link_text}]({url})")
+
