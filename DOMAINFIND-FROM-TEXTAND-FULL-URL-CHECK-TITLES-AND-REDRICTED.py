@@ -62,8 +62,11 @@ if input_text:
     # Extract and sort domains and main domains from the input text
     sorted_domains, main_domains = extract_and_sort_domains(input_text)
     
+    # Filter out invalid domains
+    sorted_domains = [domain for domain in sorted_domains if not domain.startswith('https://39267-jawan.html')]
+    
     # Display the total number of domains
-    st.write(f"Total Domains Found: {len(sorted_domains)}")
+    st.write(f"Total Valid Domains Found: {len(sorted_domains)}")
     
     # Display domain titles
     st.header("Domain Titles:")
