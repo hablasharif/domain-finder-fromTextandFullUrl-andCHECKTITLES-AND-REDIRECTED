@@ -20,14 +20,14 @@ def get_random_user_agent():
 
 # Define a function to extract and sort domains and main domains from text using regular expressions
 def extract_and_sort_domains(text):
-    # Regular expression pattern to match domains with or without "https" or "www"
-    domain_pattern = r"(https?://)?(www\.)?([a-zA-Z0-9.-]+(\.[a-zA-Z]{2,4}))"
+    # Regular expression pattern to match domains with various TLDs, subdomains, and URL schemes
+    domain_pattern = r"(https?://)?([a-zA-Z0-9.-]+(\.[a-zA-Z]{2,}))|www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
     
     # Find all domain matches in the input text
     domains = re.findall(domain_pattern, text)
     
     # Extract, add "https://" if not present, and sort the unique domains
-    sorted_domains = sorted(set(domain[0] + domain[2] if domain[0] else 'https://' + domain[2] for domain in domains))
+    sorted_domains = sorted(set(domain[0] + domain[1] if domain[0] else 'https://' + domain[1] for domain in domains))
     
     # Extract and sort the unique main domains
     main_domains = sorted(set(urlparse(domain).netloc for domain in sorted_domains))
@@ -82,12 +82,3 @@ if input_text:
         title, redirect_url = get_page_title(domain)
         if domain != redirect_url:
             st.markdown(f"[{redirect_url}]({redirect_url})", unsafe_allow_html=True)
-            import streamlit as st
-
-# Create a link to the external URL
-url = "https://danga-sitemap-finderpy.streamlit.app/"
-link_text = "visit this if you want to find multiple website sitemap"
-
-# Display the link
-st.markdown(f"[{link_text}]({url})")
-
